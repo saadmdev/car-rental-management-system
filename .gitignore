@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Next.js build output
+.next/
+out/
+Frontend/.next/
+Frontend/out/
+
+# Production build
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env*.local
+Backend/.env
+Frontend/.env.local
+Frontend/.env*.local
+
+# Backend uploads
+Backend/uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# Misc
+*.tsbuildinfo
+.cache/
+
+# Package locks (optional - some prefer to commit these)
+# package-lock.json
+# yarn.lock
+
