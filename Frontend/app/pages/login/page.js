@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
@@ -8,7 +8,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import LoginForm from '@/components/ui/LoginForm'
 import { isAuthenticated } from '@/lib/api/auth'
 
-export default function LoginPage() {
+function LoginContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const redirect = searchParams.get('redirect')
@@ -21,9 +21,7 @@ export default function LoginPage() {
   }, [redirect, router])
 
   return (
-    <main className="min-h-screen bg-white">
-      <Navbar />
-
+    <>
       <PageHeader
         title="Login"
         breadcrumbs={[
@@ -40,7 +38,21 @@ export default function LoginPage() {
           </div>
         </div>
       </section>
+    </>
+  )
+}
 
+export default function LoginPage() {
+  return (
+    <main className="min-h-screen bg-white">
+      <Navbar />
+      <Suspense fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      }>
+        <LoginContent />
+      </Suspense>
       <Footer />
     </main>
   )
