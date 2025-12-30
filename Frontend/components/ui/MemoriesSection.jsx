@@ -18,7 +18,7 @@ export default function MemoriesSection() {
               Unlock unforgettable memories on the road
             </h2>
             <p className="text-gray-600 text-lg">
-              Every journey deserves the perfect vehicle. Whether you're planning a weekend getaway, 
+              Every journey deserves the perfect vehicle. Whether you&apos;re planning a weekend getaway, 
               a family vacation, or a business trip, we have the right car to make your travel experience unforgettable.
             </p>
             <div className="space-y-4">

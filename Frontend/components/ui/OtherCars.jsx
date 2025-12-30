@@ -11,42 +11,42 @@ export default function OtherCars({ currentCarId }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const fetchOtherVehicles = async () => {
+      try {
+        setLoading(true)
+        const response = await api.getAvailableVehicles()
+        if (response.success) {
+          // Transform and filter vehicles
+          const transformed = response.data
+            .filter((v) => v._id !== currentCarId)
+            .slice(0, 3)
+            .map((vehicle) => ({
+              id: vehicle._id,
+              brand: `${vehicle.make} ${vehicle.model}`,
+              type: vehicle.vehicleType || 'sedan',
+              price: vehicle.dailyRate || 0,
+              image: vehicle.images && vehicle.images.length > 0 
+                ? vehicle.images[0] 
+                : '/placeholder-car.jpg',
+              images: vehicle.images || [],
+              features: {
+                transmission: vehicle.transmission || 'Automatic',
+                fuel: vehicle.fuelType || 'Petrol',
+                airConditioner: vehicle.features?.includes('Air Conditioner') || false,
+              },
+              equipment: vehicle.features || [],
+            }))
+          setOtherVehicles(transformed)
+        }
+      } catch (error) {
+        console.error('Error fetching other vehicles:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchOtherVehicles()
   }, [currentCarId])
-
-  const fetchOtherVehicles = async () => {
-    try {
-      setLoading(true)
-      const response = await api.getAvailableVehicles()
-      if (response.success) {
-        // Transform and filter vehicles
-        const transformed = response.data
-          .filter((v) => v._id !== currentCarId)
-          .slice(0, 3)
-          .map((vehicle) => ({
-            id: vehicle._id,
-            brand: `${vehicle.make} ${vehicle.model}`,
-            type: vehicle.vehicleType || 'sedan',
-            price: vehicle.dailyRate || 0,
-            image: vehicle.images && vehicle.images.length > 0 
-              ? vehicle.images[0] 
-              : '/placeholder-car.jpg',
-            images: vehicle.images || [],
-            features: {
-              transmission: vehicle.transmission || 'Automatic',
-              fuel: vehicle.fuelType || 'Petrol',
-              airConditioner: vehicle.features?.includes('Air Conditioner') || false,
-            },
-            equipment: vehicle.features || [],
-          }))
-        setOtherVehicles(transformed)
-      }
-    } catch (error) {
-      console.error('Error fetching other vehicles:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   if (loading) {
     return null // Don't show loading state for this section
